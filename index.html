@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhiram — Creative Editor & AI Generalist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --indigo-50: #eef2ff;
+      --indigo-100: #e0e7ff;
+      --indigo-200: #c7d2fe;
+      --indigo-300: #a5b4fc;
+      --indigo-400: #818cf8;
+      --indigo-500: #6366f1;
+      --indigo-600: #4f46e5;
+      --purple-50: #faf5ff;
+      --purple-100: #f3e8ff;
+      --purple-500: #a855f7;
+      --purple-600: #9333ea;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--slate-800);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--slate-100); }
+    ::-webkit-scrollbar-thumb { background: var(--slate-300); border-radius: 3px; }
+
+    /* ── FIXED GLOWS ── */
+    .glow-tl, .glow-br {
+      position: fixed; border-radius: 50%;
+      filter: blur(120px); pointer-events: none; z-index: 0;
+    }
+    .glow-tl { top: -20%; left: -10%; width: 50vw; height: 50vh; background: rgba(99,102,241,.18); }
+    .glow-br { bottom: -20%; right: -10%; width: 50vw; height: 50vh; background: rgba(168,85,247,.15); }
+
+    /* ── SLIDE ── */
+    .slide {
+      min-height: 100vh; width: 100%; position: relative; z-index: 1;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 2rem;
+      opacity: 0; transform: translateY(48px);
+      transition: opacity .9s ease, transform .9s ease;
+    }
+    .slide.visible { opacity: 1; transform: translateY(0); }
+    .slide-inner { max-width: 72rem; margin: 0 auto; width: 100%; }
+
+    .slide-alt { background: rgba(255,255,255,.6); border-bottom: 1px solid var(--slate-200); backdrop-filter: blur(24px); }
+
+    /* ── HERO ── */
+    #hero { min-height: 100vh; align-items: flex-start; position: relative; overflow: hidden; background-color: var(--bg); }
+
+    /* Background video seamlessly masked to transparent and bleeding edges to avoid top line artifacts */
+    .hero-bg-video {
+      position: absolute;
+      top: -2%; left: -2%;
+      width: 104%; height: 104%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.37; /* Updated to 37% opacity */
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    }
+
+    .hero-rings {
+      position: absolute; inset: 0; overflow: hidden; z-index: 1; pointer-events: none; opacity: .5;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ring {
+      position: absolute; border-radius: 50%; border: 1px solid var(--slate-200);
+    }
+    .ring-1 { width: 600px; height: 600px; animation: spin 60s linear infinite; }
+    .ring-2 { width: 900px; height: 900px; animation: spin 90s linear infinite reverse; }
+    .ring-3 { width: 1200px; height: 1200px; animation: spin 120s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .badge-pill {
+      display: inline-flex; align-items: center;
+      padding: .375rem 1rem; border-radius: 9999px;
+      border: 1px solid var(--indigo-200); background: var(--indigo-50);
+      color: var(--indigo-600); font-size: .7rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2rem;
+    }
+
+    /* Hero Text Formatting with Glow & Shadows */
+    .hero-name {
+      font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 800;
+      letter-spacing: -.04em; color: var(--slate-900); line-height: 1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 4px 24px rgba(255, 255, 255, 0.6), 0 8px 32px rgba(168, 85, 247, 0.25);
+    }
+    .hero-name span { 
+      background: linear-gradient(135deg, var(--indigo-500), var(--purple-500)); 
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; 
+    }
+    .hero-sub { 
+      font-size: clamp(1.3rem, 3vw, 2.2rem); font-weight: 500; color: #000000; 
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 12px rgba(255, 255, 255, 0.9), 0 4px 16px rgba(168, 85, 247, 0.2);
+    }
+    .hero-tags { 
+      display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; 
+      color: #000000; font-size: .9rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; 
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.9);
+    }
+    .hero-dot { width: 6px; height: 6px; border-radius: 50%; background: #000000; }
+
+    .scroll-hint {
+      position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+      animation: bounce 2s ease-in-out infinite; opacity: .6;
+      z-index: 2;
+    }
+    .scroll-hint svg { width: 24px; height: 24px; stroke: var(--slate-400); stroke-width: 2; fill: none; }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+    /* ── SECTION HEADING ── */
+    .sec-heading { margin-bottom: 3rem; }
+    .sec-num { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--slate-900); }
+    .sec-label { font-weight: 300; color: var(--slate-400); }
+
+    /* ── ABOUT GRID ── */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    @media (max-width:900px) { .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .about-text p { color: var(--slate-600); font-size: 1.1rem; line-height: 1.8; font-weight: 300; margin-bottom: 1.5rem; }
+
+    .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width:500px) { .tools-grid { grid-template-columns: 1fr; } }
+
+    .tool-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--white); border: 1px solid var(--slate-200);
+      border-radius: 1rem; padding: 1rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+      transition: box-shadow .3s, transform .3s;
+    }
+    .tool-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.09); transform: translateY(-3px); }
+    .tool-icon {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: .75rem;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,.5); box-shadow: inset 0 1px 2px rgba(255,255,255,.5);
+    }
+    .tool-icon svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .tool-name { font-size: .85rem; font-weight: 700; color: var(--slate-900); }
+    .tool-role { font-size: .72rem; color: var(--slate-400); margin-top: 2px; }
+
+    /* ── PROCESS ── */
+    .process-list { display: flex; flex-direction: column; gap: 1.25rem; max-width: 52rem; margin: 0 auto; position: relative; }
+    .process-line {
+      position: absolute; left: 2.7rem; top: 2.5rem; bottom: 2.5rem;
+      width: 2px; background: var(--indigo-100); z-index: 0;
+    }
+    @media (max-width:600px) { .process-line { display: none; } }
+
+    .process-step {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+      background: var(--white); border: 1px solid var(--slate-200);
+      border-radius: 1.25rem; padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+      transition: box-shadow .3s, border-color .3s;
+    }
+    .process-step:hover { box-shadow: 0 8px 24px rgba(0,0,0,.09); border-color: var(--indigo-200); }
+
+    .step-body { flex: 1; }
+    .step-title {
+      font-size: 1.05rem; font-weight: 700; color: var(--slate-900);
+      display: flex; align-items: center; gap: .75rem; margin-bottom: .5rem;
+    }
+    .step-num {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: .5rem;
+      background: var(--indigo-50); color: var(--indigo-600);
+      border: 1px solid var(--indigo-100); font-family: monospace; font-size: .8rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-desc { font-size: .9rem; color: var(--slate-500); line-height: 1.6; padding-left: 2.75rem; }
+
+    .step-icon {
+      flex-shrink: 0; width: 56px; height: 56px; border-radius: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,.6); box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      transition: transform .3s;
+    }
+    .process-step:hover .step-icon { transform: scale(1.08); }
+    .step-icon svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+    /* ── PROCESS HEADING ── */
+    .process-header { margin-bottom: 3rem; }
+    .process-header p { font-size: 1.15rem; color: var(--slate-600); font-weight: 300; max-width: 40rem; margin-top: 1rem; }
+    @media (min-width:768px) { .process-header { text-align: center; } .process-header p { margin-left: auto; margin-right: auto; } }
+
+    /* ── HOVER GLOW CSS ── */
+    .hover-glow-wrap {
+      position: relative;
+      z-index: 1;
+    }
+    .hover-glow {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(168, 85, 247, 0.4) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+      pointer-events: none;
+      filter: blur(20px);
+    }
+    /* Subtle version for workflow and iterative cards */
+    .hover-glow-subtle {
+      background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(168, 85, 247, 0.12) 0%, transparent 65%) !important;
+      filter: blur(24px) !important;
+    }
+    .hover-glow-wrap:hover .hover-glow {
+      opacity: 1;
+    }
+
+    /* ── IMAGE WORKFLOW ── */
+    .iw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    @media (max-width: 900px) { .iw-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .iw-list { list-style: none; display: flex; flex-direction: column; gap: 1.25rem; margin: 1.5rem 0; }
+    .iw-item { display: flex; align-items: flex-start; gap: 1rem; }
+    .iw-ico { flex-shrink: 0; margin-top: 2px; padding: .4rem; background: var(--indigo-50); border: 1px solid var(--indigo-100); border-radius: .5rem; }
+    .iw-ico svg { width: 16px; height: 16px; stroke: var(--indigo-600); stroke-width: 2; fill: none; }
+    .iw-item strong { display: block; color: var(--slate-900); margin-bottom: .25rem; font-size: .95rem; }
+    .iw-item span { color: var(--slate-500); font-size: .85rem; }
+
+    .iterative-box {
+      margin-top: 3.5rem; background: rgba(238,242,255,.5);
+      border: 1px solid var(--indigo-100); border-radius: 1.25rem; padding: 1.5rem;
+      width: 100%;
+    }
+    .iterative-label {
+      display: flex; align-items: center; gap: .5rem;
+      font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--slate-900); margin-bottom: .4rem;
+    }
+    .iterative-label svg { width: 18px; height: 18px; stroke: var(--indigo-500); stroke-width: 2; fill: none; }
+    .iterative-sub { font-size: .8rem; color: var(--slate-500); margin-bottom: 1.5rem; }
+    
+    .iter-row { display: flex; align-items: flex-start; gap: 1rem; }
+    .iter-card {
+      flex: 1; background: var(--white); border: 1px solid var(--slate-200);
+      border-radius: 1rem; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;
+      transition: transform .3s;
+    }
+    .iter-card:hover { transform: translateY(-3px); }
+    .iter-card.highlight { border-color: var(--indigo-200); box-shadow: 0 4px 16px rgba(99,102,241,.12); transform: scale(1.03); }
+    
+    .iter-thumb {
+      width: 100%; max-width: 130px; 
+      aspect-ratio: 9/16; background: var(--slate-50);
+      border: 1px solid var(--slate-100); border-radius: .5rem; margin-bottom: 1rem;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .iter-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .iter-card.highlight .iter-thumb { border-color: var(--indigo-100); }
+    
+    .iter-label { font-size: .75rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--slate-900); text-align: center; line-height: 1.4; margin-bottom: .5rem; }
+    .iter-card.highlight .iter-label { color: var(--indigo-700); }
+    
+    /* Description styling */
+    .iter-desc {
+      font-size: .75rem;
+      color: var(--slate-500);
+      text-align: center;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .arrow-sm { padding-top: 5rem; }
+    .arrow-sm svg { width: 24px; height: 24px; stroke: var(--indigo-300); stroke-width: 2; fill: none; flex-shrink: 0; }
+
+    /* Phone mockup */
+    .phone-wrap { display: flex; justify-content: center; }
+    .phone {
+      position: relative; width: 100%; max-width: 260px;
+      aspect-ratio: 9/16; border-radius: 2.5rem;
+      background: var(--white); border: 6px solid var(--white);
+      box-shadow: 0 32px 64px rgba(0,0,0,.18); overflow: hidden;
+      z-index: 2;
+    }
+    .phone-pill { position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); width: 64px; height: 6px; background: rgba(100,116,139,.3); border-radius: 3px; z-index: 2; }
+
+    /* ── VIDEO WORKFLOW ── */
+    .vid-formula { display: flex; align-items: center; justify-content: center; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    
+    .formula-card {
+      background: var(--white); border: 1px solid var(--slate-200);
+      border-radius: 1.25rem; padding: 1.25rem; display: flex; flex-direction: column; align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,.05); width: 220px; 
+    }
+    .formula-card.accent { background: var(--indigo-50); border-color: var(--indigo-200); box-shadow: 0 8px 24px rgba(99,102,241,.12); }
+    
+    .formula-thumb {
+      width: 100%; aspect-ratio: 9/16; background: var(--slate-50); border: 1px solid var(--slate-200);
+      border-radius: .75rem; display: flex; align-items: center; justify-content: center; overflow: hidden;
+      position: relative; z-index: 2;
+    }
+    .formula-thumb img, .formula-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .formula-card.accent .formula-thumb { background: var(--white); border-color: var(--indigo-100); }
+    
+    .op-sym svg { width: 32px; height: 32px; stroke: var(--slate-300); stroke-width: 2; fill: none; }
+
+    .vid-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; max-width: 48rem; margin: 0 auto 3rem; }
+    @media (max-width:700px) { .vid-cards { grid-template-columns: 1fr; } }
+    .vid-card {
+      background: var(--white); border: 1px solid var(--slate-200);
+      border-radius: 1rem; padding: 1.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    }
+    .vid-card h4 { font-size: .95rem; font-weight: 700; color: var(--slate-900); margin-bottom: .5rem; }
+    .vid-card p { font-size: .82rem; color: var(--slate-500); line-height: 1.6; }
+
+    /* Custom Portfolio Button CSS */
+    .portfolio-link-wrap { text-align: center; margin-top: 3rem; }
+    .portfolio-btn {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 1rem 2.5rem; background: linear-gradient(135deg, var(--indigo-600), var(--purple-600)); color: var(--white);
+      border-radius: 9999px; font-weight: 700; text-decoration: none; font-size: 1.05rem;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4); transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .portfolio-btn:hover { box-shadow: 0 12px 32px rgba(168, 85, 247, 0.5); transform: translateY(-3px); color: var(--white); }
+
+    /* ── SPATIAL WEB ── */
+    .spatial-header { text-align: center; margin-bottom: 3rem; }
+    .spatial-header h3 { font-size: 1.5rem; font-weight: 700; color: var(--indigo-600); margin-bottom: 1rem; }
+    .spatial-header p { color: var(--slate-600); font-weight: 300; font-size: 1.05rem; max-width: 40rem; margin: 0 auto; }
+
+    .spatial-cards { display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
+
+    .browser-card {
+      position: relative; width: 100%; max-width: 360px; aspect-ratio: 4/3;
+      border-radius: 1rem; overflow: hidden; cursor: pointer;
+      box-shadow: 0 8px 32px rgba(0,0,0,.1); transition: all .4s; border: 1px solid var(--slate-200); background: var(--white);
+    }
+    .browser-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,.15); transform: translateY(-5px); }
+
+    .browser-card.spatial-3d { background: linear-gradient(135deg, var(--indigo-50), var(--purple-50)); border-color: var(--indigo-200); }
+
+    .browser-bar {
+      width: 100%; height: 32px; border-bottom: 1px solid var(--slate-100);
+      background: var(--slate-50); display: flex; align-items: center; padding: 0 1rem; gap: .5rem; z-index: 10; position: relative;
+    }
+    .browser-card.spatial-3d .browser-bar { background: rgba(255,255,255,.8); backdrop-filter: blur(8px); border-color: var(--indigo-100); }
+    .dot-r { width: 10px; height: 10px; border-radius: 50%; background: #f87171; }
+    .dot-y { width: 10px; height: 10px; border-radius: 50%; background: #fbbf24; }
+    .dot-g { width: 10px; height: 10px; border-radius: 50%; background: #34d399; }
+    .dot-n { width: 10px; height: 10px; border-radius: 50%; background: var(--slate-300); }
+
+    .browser-body { padding: 1.25rem 1.5rem; height: calc(100% - 32px); display: flex; flex-direction: column; }
+    .placeholder-bar { height: 20px; background: var(--slate-200); border-radius: .375rem; margin-bottom: 1rem; }
+    .placeholder-bar.w-3\/4 { width: 75%; }
+    .placeholder-block { flex: 1; background: var(--slate-100); border: 1px solid var(--slate-200); border-radius: .5rem; margin-bottom: 1rem; }
+    .browser-link { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: .85rem; font-weight: 700; color: var(--indigo-600); }
+    .browser-link svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 2; fill: none; transition: transform .3s; }
+    .browser-card:hover .browser-link svg { transform: translateX(4px); }
+
+    /* Custom iFrame Thumbnail for Spatial Web */
+    .thumbnail-iframe {
+      width: 400%; height: 400%;
+      transform: scale(0.25); transform-origin: top left;
+      border: none; pointer-events: none;
+      position: absolute; top: 0; left: 0;
+    }
+
+    /* 3D body */
+    .s3d-skew1 { height: 28px; background: var(--indigo-100); border: 1px solid var(--indigo-200); border-radius: .5rem; width: 55%; transform: skewX(-12deg); margin-bottom: 1.5rem; box-shadow: 0 2px 6px rgba(99,102,241,.15); }
+    .s3d-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; flex: 1; margin-bottom: 1rem; }
+    .s3d-a { background: var(--purple-100); border: 1px solid var(--purple-100); border-radius: .5rem; transform: skewY(6deg); box-shadow: 0 4px 12px rgba(168,85,247,.1); }
+    .s3d-b { background: #dbeafe; border: 1px solid #bfdbfe; border-radius: .5rem; transform: skewY(-6deg); box-shadow: 0 4px 12px rgba(59,130,246,.1); }
+    .spatial-link { color: var(--purple-600); }
+    .spatial-link svg { stroke: var(--purple-600); }
+
+    .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; max-width: 56rem; margin: 0 auto; }
+    @media (max-width:700px) { .steps-grid { grid-template-columns: 1fr; } }
+    .step-block { border-left: 2px solid var(--indigo-300); padding: .75rem 1rem; }
+    .step-block strong { display: block; color: var(--slate-900); font-size: .9rem; margin-bottom: .35rem; }
+    .step-block span { color: var(--slate-500); font-size: .82rem; line-height: 1.6; }
+
+    /* ── OUTRO ── */
+    #outro { text-align: center; }
+    .outro-inner { max-width: 48rem; margin: 0 auto; }
+    .outro-icon { width: 48px; height: 48px; stroke: var(--indigo-300); stroke-width: 2; fill: none; margin: 0 auto 2rem; display: block; }
+    .outro-quote { font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 300; font-style: italic; color: var(--slate-600); line-height: 1.7; margin-bottom: 3rem; }
+    .outro-divider { height: 1px; width: 96px; background: linear-gradient(to right, transparent, var(--indigo-300), transparent); margin: 0 auto 3rem; }
+    .outro-name { font-size: 1.5rem; font-weight: 700; color: var(--slate-900); margin-bottom: .5rem; }
+    .outro-by { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--slate-400); }
+
+    /* ── UTILS ── */
+    .flex-center { display: flex; align-items: center; justify-content: center; }
+
+    /* colors for tool cards */
+    .c-pink { color: #db2777; } .bg-pink { background: linear-gradient(135deg,#fce7f3,#ffe4e6); }
+    .c-blue { color: #2563eb; } .bg-blue { background: linear-gradient(135deg,#dbeafe,#cffafe); }
+    .c-amber { color: #d97706; } .bg-amber { background: linear-gradient(135deg,#fef3c7,#fef9c3); }
+    .c-emerald { color: #059669; } .bg-emerald { background: linear-gradient(135deg,#d1fae5,#ccfbf1); }
+    .c-purple { color: #9333ea; } .bg-purple { background: linear-gradient(135deg,#f3e8ff,#fdf4ff); }
+    .c-indigo { color: #4338ca; } .bg-indigo-grad { background: linear-gradient(135deg,#e0e7ff,#ede9fe); }
+    .c-orange { color: #ea580c; } .bg-orange { background: linear-gradient(135deg,#fed7aa,#fecaca); }
+    .c-deepblue { color: #1d4ed8; } .bg-deepblue { background: linear-gradient(135deg,#dbeafe,#e0e7ff); }
+
+    /* colors for process steps */
+    .bg-process-pink { background: linear-gradient(135deg,#fce7f3,#ffe4e6); }
+    .bg-process-emerald { background: linear-gradient(135deg,#d1fae5,#ccfbf1); }
+    .bg-process-blue { background: linear-gradient(135deg,#dbeafe,#cffafe); }
+    .bg-process-purple { background: linear-gradient(135deg,#f3e8ff,#fdf4ff); }
+    .bg-process-orange { background: linear-gradient(135deg,#fed7aa,#fef3c7); }
+  </style>
+</head>
+<body>
+
+  <div class="glow-tl"></div>
+  <div class="glow-br"></div>
+
+  <section class="slide" id="hero">
+    <video src="back.mp4" autoplay muted playsinline class="hero-bg-video"></video>
+    <div class="hero-rings">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+    </div>
+    <div class="slide-inner" style="position:relative;z-index:2;">
+      <div class="badge-pill">Workflow Deck</div>
+      <h1 class="hero-name">ABHIRAM<span>.</span></h1>
+      <h2 class="hero-sub">Creative Editor &amp; AI Generalist</h2>
+      <p class="hero-tags">
+        <span>Visual Storyteller</span>
+        <span class="hero-dot"></span>
+        <span>Motion Designer</span>
+      </p>
+    </div>
+    <div class="scroll-hint">
+      <svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+  </section>
+
+  <section class="slide" id="about">
+    <div class="slide-inner">
+      <div class="about-grid">
+        <div class="about-text">
+          <div class="sec-heading">
+            <span class="sec-num">01 <span class="sec-label">About Me</span></span>
+          </div>
+          <p>I am a multidisciplinary Creative Editor and AI Generalist specializing in high-fidelity visual storytelling, motion design, and scalable content generation.</p>
+          <p>I focus on bridging the gap between raw AI outputs and production-ready assets by combining strong aesthetic judgment with an advanced, meticulously orchestrated AI workflow.</p>
+        </div>
+        <div class="tools-grid">
+
+          <div class="tool-card">
+            <div class="tool-icon bg-pink">
+              <svg class="c-pink" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
+            </div>
+            <div><div class="tool-name">Flow &amp; Mixboard</div><div class="tool-role">Strategy &amp; Orchestration</div></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-icon bg-blue">
+              <svg class="c-blue" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            </div>
+            <div><div class="tool-name">Gemini and Grok</div><div class="tool-role">Generation &amp; Prototyping</div></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-icon bg-amber">
+              <svg class="c-amber" viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/></svg>
+            </div>
+            <div><div class="tool-name">Whisk</div><div class="tool-role">Rapid Remixing</div></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-icon bg-emerald">
+              <svg class="c-emerald" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div><div class="tool-name">ChatGPT</div><div class="tool-role">Prompt Architecture</div></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-icon bg-purple">
+              <svg class="c-purple" viewBox="0 0 24 24"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+            </div>
+            <div><div class="tool-name">Adobe Pr &amp; Ae</div><div class="tool-role">Post-Production &amp; Motion</div></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-icon bg-deepblue">
+              <svg class="c-deepblue" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+            </div>
+            <div><div class="tool-name">Photoshop</div><div class="tool-role">Image Processing</div></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-icon bg-orange">
+              <svg class="c-orange" viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg>
+            </div>
+            <div><div class="tool-name">Claude</div><div class="tool-role">Code &amp; Logic</div></div>
+          </div>
+
+          <div class="tool-card">
+            <div class="tool-icon bg-indigo-grad">
+              <svg class="c-indigo" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+            </div>
+            <div><div class="tool-name">Google Antigravity</div><div class="tool-role">Experimental Dev</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide slide-alt" id="process">
+    <div class="slide-inner">
+      <div class="process-header">
+        <div class="sec-num">02 <span class="sec-label">The Orchestrated Pipeline</span></div>
+        <p>Every piece of visual content follows a deliberate, multi-platform pipeline. This is not single-platform dependence; it is professional-grade orchestration.</p>
+      </div>
+
+      <div class="process-list">
+        <div class="process-line"></div>
+
+        <div class="process-step">
+          <div class="step-body">
+            <div class="step-title"><div class="step-num">01</div> Brand Alignment</div>
+            <div class="step-desc">Deep-diving into identity. Using Mixboard to aggregate inspiration and lock aesthetic direction.</div>
+          </div>
+          <div class="step-icon bg-process-pink c-pink">
+            <svg viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-body">
+            <div class="step-title"><div class="step-num">02</div> Prompt Architecture</div>
+            <div class="step-desc">Flow manages pipeline logic; ChatGPT translates moodboards into specific, machine-readable structures.</div>
+          </div>
+          <div class="step-icon bg-process-emerald c-emerald">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-body">
+            <div class="step-title"><div class="step-num">03</div> High-Fidelity Gen</div>
+            <div class="step-desc">Executing prompts for premium assets. Deploying Whisk to rapidly remix subjects, scenes, and styles.</div>
+          </div>
+          <div class="step-icon bg-process-blue c-blue">
+            <svg viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-body">
+            <div class="step-title"><div class="step-num">04</div> Asset Layering</div>
+            <div class="step-desc">Breaking generated images down into foreground, subject, and background for absolute control.</div>
+          </div>
+          <div class="step-icon bg-process-purple c-purple">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg>
+          </div>
+        </div>
+
+        <div class="process-step">
+          <div class="step-body">
+            <div class="step-title"><div class="step-num">05</div> Post-Production</div>
+            <div class="step-desc">Final polish using Ps, Pr, and Ae for color grading, detailing, and motion synthesis.</div>
+          </div>
+          <div class="step-icon bg-process-orange c-orange">
+            <svg viewBox="0 0 24 24"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="image-workflow">
+    <div class="slide-inner">
+      <div class="iw-grid">
+
+        <div>
+          <div class="sec-heading">
+            <div class="sec-num">03 <span class="sec-label">Image Workflow</span></div>
+          </div>
+          <h3 style="font-size:1.4rem;font-weight:700;color:var(--indigo-600);margin-bottom:1rem;">The Layered Asset Approach</h3>
+          <p style="color:var(--slate-600);font-size:1.05rem;font-weight:300;line-height:1.7;margin-bottom:1.25rem;">Raw generation is only the foundation. True quality comes from granular control.</p>
+
+          <ul class="iw-list">
+            <li class="iw-item">
+              <div class="iw-ico"><svg viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72Z"/><path d="m14 7 3 3"/></svg></div>
+              <div><strong>The Engine</strong><span>Prompt architecture driven through Flow, executed in Gemini, and rapidly remixed using Whisk.</span></div>
+            </li>
+            <li class="iw-item">
+              <div class="iw-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 12 12 17 22 12"/><polyline points="2 17 12 22 22 17"/></svg></div>
+              <div><strong>The Layering Technique</strong><span>Before post-production, raw output is separated into distinct layers using Mixboard, isolating a subject from its environment.</span></div>
+            </li>
+            <li class="iw-item">
+              <div class="iw-ico"><svg viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></div>
+              <div><strong>The Execution</strong><span>Non-destructive editing in Photoshop. Correct lighting or add depth-of-field independently to guarantee a production-ready asset.</span></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="phone-wrap" style="margin-top: -3rem;">
+          <div class="hover-glow-wrap" style="border-radius: 2.5rem; width: 100%; max-width: 260px;">
+            <div class="hover-glow" style="border-radius: 2.5rem;"></div>
+            <div class="phone">
+              <video src="Layers.mp4" autoplay loop muted playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transform: scale(1.06);"></video>
+              <div class="phone-pill"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="iterative-box">
+        <div class="iterative-label">
+          <svg viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          Iterative Prompt Modification
+        </div>
+        <div class="iterative-sub">Refining and modifying prompts for the exact desired output.</div>
+        <div class="iter-row">
+          
+          <div class="iter-card hover-glow-wrap">
+            <div class="hover-glow hover-glow-subtle" style="border-radius: 1rem;"></div>
+            <div class="iter-thumb" style="position: relative; z-index: 2;">
+              <img src="11.jpg" alt="Easily identified as AI" />
+            </div>
+            <div class="iter-label" style="position: relative; z-index: 2;">Easily Identified as AI</div>
+            <div class="iter-desc" style="position: relative; z-index: 2;">Raw generation yields a generic look.<br>Lighting feels artificial and flat.<br>Clearly recognizable as an AI asset.</div>
+          </div>
+          
+          <div class="arrow-sm"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+          
+          <div class="iter-card hover-glow-wrap">
+            <div class="hover-glow hover-glow-subtle" style="border-radius: 1rem;"></div>
+            <div class="iter-thumb" style="position: relative; z-index: 2;">
+              <img src="12.jpg" alt="Prompt refinement and realism" />
+            </div>
+            <div class="iter-label" style="position: relative; z-index: 2;">Prompt Refinement & Realism</div>
+            <div class="iter-desc" style="position: relative; z-index: 2;">Targeted prompting strictly applied.<br>Enhanced natural skin textures.<br>Bridging the photorealistic gap.</div>
+          </div>
+          
+          <div class="arrow-sm"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+          
+          <div class="iter-card highlight hover-glow-wrap">
+            <div class="hover-glow hover-glow-subtle" style="border-radius: 1rem;"></div>
+            <div class="iter-thumb" style="position: relative; z-index: 2;">
+              <img src="13.jpg" alt="Color correction and modification" />
+            </div>
+            <div class="iter-label" style="position: relative; z-index: 2;">Color Correction & Modification</div>
+            <div class="iter-desc" style="position: relative; z-index: 2;">Final post-production in software.<br>Color shifts precisely corrected.<br>Localized film grain is integrated.</div>
+          </div>
+
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide slide-alt" id="video-workflow">
+    <div class="slide-inner">
+      <div style="text-align:center;margin-bottom:3rem;">
+        <div class="sec-num">04 <span class="sec-label">Video Generation</span></div>
+        <p style="font-size:1.1rem;color:var(--slate-600);font-weight:300;max-width:36rem;margin:1rem auto 0;">Transforming high-fidelity images into dynamic visual narratives and live interactive prototypes.</p>
+      </div>
+
+      <div class="vid-formula">
+        
+        <div class="formula-card hover-glow-wrap">
+          <div class="hover-glow hover-glow-subtle" style="border-radius: 1.25rem;"></div>
+          <div class="formula-thumb" style="position: relative; z-index: 2;">
+            <img src="1.jpg" alt="First Frame" />
+          </div>
+        </div>
+        
+        <div class="op-sym"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div>
+        
+        <div class="formula-card hover-glow-wrap">
+          <div class="hover-glow hover-glow-subtle" style="border-radius: 1.25rem;"></div>
+          <div class="formula-thumb" style="position: relative; z-index: 2;">
+            <img src="2.jpg" alt="Final Frame" />
+          </div>
+        </div>
+        
+        <div class="op-sym"><svg viewBox="0 0 24 24"><line x1="5" x2="19" y1="9" y2="9"/><line x1="5" x2="19" y1="15" y2="15"/></svg></div>
+        
+        <div class="formula-card accent hover-glow-wrap">
+          <div class="hover-glow hover-glow-subtle" style="border-radius: 1.25rem;"></div>
+          <div class="formula-thumb" style="position: relative; z-index: 2;">
+            <video src="video.mp4" autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.07);"></video>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="vid-cards">
+        <div class="vid-card">
+          <h4>Asset Preparation</h4>
+          <p>Utilizing layered image assets to create precise depth maps and distinct planes of motion.</p>
+        </div>
+        <div class="vid-card">
+          <h4>Motion Interpolation</h4>
+          <p>Deploying AI video tools to generate fluid transitions and subtle, organic movements.</p>
+        </div>
+        <div class="vid-card">
+          <h4>Post-Production Polish</h4>
+          <p>Refining in Premiere Pro &amp; After Effects with camera shake, film grain, and color grading.</p>
+        </div>
+      </div>
+
+      <div class="portfolio-link-wrap">
+        <a href="https://abhiramjammu.github.io/portifolio/" class="portfolio-btn">
+          Explore My Interactive Portfolio
+          <svg style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="slide" id="spatial-web">
+    <div class="slide-inner">
+      <div class="spatial-header">
+        <div class="sec-num" style="margin-bottom:.75rem;">05 <span class="sec-label">The Experiment Workflow</span></div>
+        <h3>Frame-to-Code: Generating Spatial Web Experiences</h3>
+        <p>An experimental pipeline to fully generate dynamic, standard, and 3D websites using video interpolation and advanced LLMs.</p>
+      </div>
+
+      <div class="spatial-cards">
+        <div class="hover-glow-wrap" style="width: 100%; max-width: 760px; border-radius: 1rem; margin: 0 auto;">
+          <div class="hover-glow hover-glow-subtle" style="border-radius: 1rem;"></div>
+          <a href="https://abhiramjammu.github.io/ABevents/" style="text-decoration: none; display: block; margin: 0; max-width: none; aspect-ratio: 16/9;" class="browser-card spatial-3d">
+            <div class="browser-bar" style="position: relative; z-index: 2;"><div class="dot-n"></div><div class="dot-n"></div><div class="dot-n"></div></div>
+            <div class="browser-body" style="padding: 0; position: relative; overflow: hidden; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; z-index: 2; height: calc(100% - 32px);">
+              
+              <iframe src="https://abhiramjammu.github.io/ABevents/" class="thumbnail-iframe" style="transform: scale(0.5); width: 200%; height: 200%;"></iframe>
+              
+              <div style="position: absolute; inset: 0; background: rgba(99, 102, 241, 0.15); display: flex; align-items: flex-end; justify-content: center; padding: 1.25rem;">
+                  <div class="browser-link spatial-link" style="width: 100%; max-width: 400px; background: rgba(255,255,255,0.95); padding: 0.75rem 1rem; border-radius: 0.5rem; text-align: center; display: flex; justify-content: center; gap: 0.5rem;">
+                    Enter ABEvents Spatial Layout
+                    <svg viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="m10 8 6 4-6 4Z"/></svg>
+                  </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-block">
+          <strong>1. Keyframing the UI</strong>
+          <span>Designing the extreme ends of the experience by generating exact First and Last frames of the layout.</span>
+        </div>
+        <div class="step-block">
+          <strong>2. Video Synthesis</strong>
+          <span>Converting anchor frames into fluid video to map transitional logic, extracting 300+ individual frames.</span>
+        </div>
+        <div class="step-block">
+          <strong>3. Code Translation</strong>
+          <span>Feeding the sequence into Claude &amp; Google Antigravity to fully generate HTML/CSS/JS for live spatial sites.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide slide-alt" id="outro">
+    <div class="slide-inner">
+      <div class="outro-inner">
+        <svg class="outro-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <p class="outro-quote">"I am incredibly passionate about the intersection of visual design and artificial intelligence. It allows us to scale creativity without losing fidelity, and I am dedicated to continuously pushing the boundaries of what this technology can build."</p>
+        <div class="outro-divider"></div>
+        <div class="outro-name">Thank You.</div>
+        <div class="outro-by">Presented by Abhiram</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Scroll reveal
+    const slides = document.querySelectorAll('.slide');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+    slides.forEach(s => observer.observe(s));
+
+    // Interactive Hover Glow Effect
+    const glowWraps = document.querySelectorAll('.hover-glow-wrap');
+    glowWraps.forEach(wrap => {
+      wrap.addEventListener('mousemove', (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const glow = wrap.querySelector('.hover-glow');
+        if(glow) {
+          glow.style.setProperty('--mouse-x', `${x}px`);
+          glow.style.setProperty('--mouse-y', `${y}px`);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
