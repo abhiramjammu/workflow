@@ -83,7 +83,7 @@
       width: 104%; height: 104%;
       object-fit: cover;
       z-index: 0;
-      opacity: 0.37; /* Updated to 37% opacity */
+      opacity: 0.37;
       -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
       mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     }
@@ -352,10 +352,11 @@
     .spatial-header h3 { font-size: 1.5rem; font-weight: 700; color: var(--indigo-600); margin-bottom: 1rem; }
     .spatial-header p { color: var(--slate-600); font-weight: 300; font-size: 1.05rem; max-width: 40rem; margin: 0 auto; }
 
-    .spatial-cards { display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    /* Decreased gap from 3rem to 1.5rem */
+    .spatial-cards { display: flex; justify-content: center; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
 
     .browser-card {
-      position: relative; width: 100%; max-width: 360px; aspect-ratio: 4/3;
+      position: relative; width: 100%; aspect-ratio: 4/3;
       border-radius: 1rem; overflow: hidden; cursor: pointer;
       box-shadow: 0 8px 32px rgba(0,0,0,.1); transition: all .4s; border: 1px solid var(--slate-200); background: var(--white);
     }
@@ -750,24 +751,44 @@
         <p>An experimental pipeline to fully generate dynamic, standard, and 3D websites using video interpolation and advanced LLMs.</p>
       </div>
 
-      <div class="spatial-cards">
-        <div class="hover-glow-wrap" style="width: 100%; max-width: 760px; border-radius: 1rem; margin: 0 auto;">
+      <div class="spatial-cards" style="gap: 1.5rem;">
+        
+        <div class="hover-glow-wrap" style="width: 100%; max-width: 500px; border-radius: 1rem;">
           <div class="hover-glow hover-glow-subtle" style="border-radius: 1rem;"></div>
-          <a href="https://abhiramjammu.github.io/ABevents/" style="text-decoration: none; display: block; margin: 0; max-width: none; aspect-ratio: 16/9;" class="browser-card spatial-3d">
-            <div class="browser-bar" style="position: relative; z-index: 2;"><div class="dot-n"></div><div class="dot-n"></div><div class="dot-n"></div></div>
+          <a href="https://abhiramjammu.github.io/ABevents/" style="text-decoration: none; display: block; margin: 0; aspect-ratio: 4/3;" class="browser-card">
+            <div class="browser-bar" style="position: relative; z-index: 2;"><div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div></div>
             <div class="browser-body" style="padding: 0; position: relative; overflow: hidden; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; z-index: 2; height: calc(100% - 32px);">
               
               <iframe src="https://abhiramjammu.github.io/ABevents/" class="thumbnail-iframe" style="transform: scale(0.5); width: 200%; height: 200%;"></iframe>
               
               <div style="position: absolute; inset: 0; background: rgba(99, 102, 241, 0.15); display: flex; align-items: flex-end; justify-content: center; padding: 1.25rem;">
-                  <div class="browser-link spatial-link" style="width: 100%; max-width: 400px; background: rgba(255,255,255,0.95); padding: 0.75rem 1rem; border-radius: 0.5rem; text-align: center; display: flex; justify-content: center; gap: 0.5rem;">
-                    Enter ABEvents Spatial Layout
+                  <div class="browser-link" style="width: 100%; max-width: 300px; background: rgba(255,255,255,0.95); padding: 0.75rem 1rem; border-radius: 0.5rem; text-align: center; display: flex; justify-content: center; gap: 0.5rem;">
+                    View 2D Environment
                     <svg viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="m10 8 6 4-6 4Z"/></svg>
                   </div>
               </div>
             </div>
           </a>
         </div>
+
+        <div class="hover-glow-wrap" style="width: 100%; max-width: 500px; border-radius: 1rem;">
+          <div class="hover-glow hover-glow-subtle" style="border-radius: 1rem;"></div>
+          <a href="https://apple-vision-pro-gamma-two.vercel.app/" style="text-decoration: none; display: block; margin: 0; aspect-ratio: 4/3;" class="browser-card spatial-3d">
+            <div class="browser-bar" style="position: relative; z-index: 2;"><div class="dot-n"></div><div class="dot-n"></div><div class="dot-n"></div></div>
+            <div class="browser-body" style="padding: 0; position: relative; overflow: hidden; border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; z-index: 2; height: calc(100% - 32px);">
+              
+              <iframe src="https://apple-vision-pro-gamma-two.vercel.app/" class="thumbnail-iframe" style="transform: scale(0.5); width: 200%; height: 200%;"></iframe>
+              
+              <div style="position: absolute; inset: 0; background: rgba(99, 102, 241, 0.15); display: flex; align-items: flex-end; justify-content: center; padding: 1.25rem;">
+                  <div class="browser-link spatial-link" style="width: 100%; max-width: 300px; background: rgba(255,255,255,0.95); padding: 0.75rem 1rem; border-radius: 0.5rem; text-align: center; display: flex; justify-content: center; gap: 0.5rem;">
+                    Enter Spatial Layout
+                    <svg viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="m10 8 6 4-6 4Z"/></svg>
+                  </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
       </div>
 
       <div class="steps-grid">
