@@ -349,7 +349,7 @@
 </style>
 </head>
 
-<body class="index-page light-theme">
+<body class="pastel-violet light-theme">
   
   <div class="mesh-gradient-overlay"></div>
   <div class="theme-grid-overlay"></div>
@@ -358,95 +358,40 @@
   <canvas id="topography-canvas"></canvas>
   <div id="cursor-light"></div>
 
+  
   <div class="main-content">
-    <section class="hero container">
-      <div class="hero-grid">
-        <div>
-          <div class="pill-mask"><div class="pill"><div class="glow-dot"></div>Available for opportunities</div></div>
-          <div class="mograph-mask" style="display: block;"><h1 class="hero-title mask-reveal delay-title"><span class="apple-gradient">Abhiram</span></h1></div>
-          <div class="mograph-mask" style="display: block;"><h2 class="hero-role mask-reveal delay-role">Creative Production Lead</h2></div>
-          <div class="mograph-mask" style="display: block;"><p class="hero-desc mask-reveal delay-desc">Architecting digital experiences at the intersection of Pre-Production Strategy, Asset Generation, and Flawless Post-Production Delivery.</p></div>
-        </div>
-        <div class="hero-visual">
-          <div class="glass-stack">
-            <div class="stack-layer layer-1"></div>
-            <div class="stack-layer layer-2"></div>
-            <div class="stack-layer layer-3">
-              <div class="stack-header"><div class="stack-dot"></div><div class="stack-dot"></div><div class="stack-dot"></div></div>
-              <div class="stack-video-wrapper"><video src="back.mp4" autoplay loop muted playsinline></video></div>
-              <div class="stack-qa">
-                <div class="sqa-item sqa-item-1">Resolution Checked <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
-                <div class="sqa-item sqa-item-2">Color Graded <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
-                <div class="sqa-item sqa-item-3">Quality Passed <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
-              </div>
-              <div class="sqa-status"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10" style="stroke:currentColor;stroke-width:2;fill:none;"/></svg> Approved for next step</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section container" id="operations-section">
+    <nav class="nav container reveal-up">
+      <a href="index.html" class="back-btn"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to Hub</a>
+    </nav>
+    <section class="section container" style="padding-top: 10rem;">
       <div class="section-header reveal-up">
-        <div class="section-num">01. Setup</div>
-        <h2 class="section-title">The Operational Engine</h2>
-        <p style="color: var(--text-muted); max-width: 600px; margin: 1rem auto 0;">The exact multimedia checklists used across the pipeline.</p>
+        <div class="section-num">Cinematic Sequencing</div>
+        <h1 class="section-title">From Anchors to Motion</h1>
       </div>
-
-      <div class="light-hover-panel reveal-up" style="padding: 2rem;">
-        <div class="lhp-content">
-          <div class="ops-grid">
-            <div class="ops-sidebar">
-              <h3 style="font-size:1rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Multimedia Directory</h3>
-              <div class="folder-tree" id="dashboard-folders">
-                <div class="folder-item active" data-folder="preprod"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 01_Strategy_&_Briefs</div>
-                <div class="folder-item" data-folder="prod"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 02_Asset_Production</div>
-                
-                <div class="folder-indent">
-                  <div class="folder-item" data-folder="live">Live_Action_Plates</div>
-                  <div class="folder-item" data-folder="ai">AI_Generative_Assets</div>
-                </div>
-
-                <div class="folder-item" data-folder="post"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 03_VFX_&_Compositing</div>
-                <div class="folder-item" data-folder="delivery"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 04_Final_Delivery_&_QA</div>
-              </div>
-            </div>
-            
-            <div class="ops-main">
-              <div class="qa-header">
-                <span id="qa-title">Strategy & Briefs Tracker</span>
-                <span style="font-size: 0.7rem; color: var(--cyan-deep);">CLICK TASKS TO PASS</span>
-              </div>
-              <div class="qa-list-wrapper" id="qa-list-wrapper">
-                <div class="qa-list" id="qa-list"></div>
-              </div>
-            </div>
-          </div>
+      
+      <div class="sequence-row reveal-up">
+        <div class="seq-item light-hover-panel hover-glow-wrapper">
+          <div class="lhp-content"><div class="phone-frame" style="background:transparent;border:none;box-shadow:none;padding:0;"><div class="media-container"><img src="1.jpg" alt="First Frame" /></div></div><div class="asset-label">First Frame</div></div>
+        </div>
+        <div class="seq-op">+</div>
+        <div class="seq-item light-hover-panel hover-glow-wrapper">
+          <div class="lhp-content"><div class="phone-frame" style="background:transparent;border:none;box-shadow:none;padding:0;"><div class="media-container"><img src="2.jpg" alt="Final Frame" /></div></div><div class="asset-label">Target Frame</div></div>
+        </div>
+        <div class="seq-op">→</div>
+        <div class="seq-item light-hover-panel hover-glow-wrapper">
+          <div class="lhp-content"><div class="phone-frame" style="background:transparent;border:none;box-shadow:none;padding:0;"><div class="media-container"><video src="video.mp4" autoplay loop muted playsinline></video></div></div><div class="asset-label">Final Output</div></div>
         </div>
       </div>
-    </section>
-
-    <section class="section container">
-      <div class="section-header reveal-up"><div class="section-num">02. Execution</div><h2 class="section-title">The Orchestrated Pipeline</h2></div>
-      <div class="pipe-grid reveal-up">
-        <div class="pipe-card light-hover-panel"><div class="lhp-content"><div class="pipe-num">01</div><h3>Pre-Production</h3><p>Establishing strict brand architectures. Defining precise color palettes, organizing directory structures, and writing the technical briefs that guide the entire team.</p></div></div>
-        <div class="pipe-card light-hover-panel"><div class="lhp-content"><div class="pipe-num">02</div><h3>Production</h3><p>Executing the creative vision. Drafting semantic architectures for GenAI models or organizing live shoots, capturing raw material at the highest fidelity.</p></div></div>
-        <div class="pipe-card light-hover-panel"><div class="lhp-content"><div class="pipe-num">03</div><h3>Post-Production</h3><p>Raw assets are brought into Photoshop for compositing, artifacts painted out, and footage stitched/color-graded in Premiere. Every asset must pass QA.</p></div></div>
+      
+      <div class="workflow-points reveal-up" style="margin-top: 4rem;">
+        <div class="point-card light-hover-panel"><div class="lhp-content"><h4>NLE Sequencing</h4><p style="color:var(--text-muted)">Cutting to the beat, interpolating speeds, and structuring the timeline narrative for real footage and AI.</p></div></div>
+        <div class="point-card light-hover-panel"><div class="lhp-content"><h4>Color Grading</h4><p style="color:var(--text-muted)">Applying LUTs, matching shot exposures, and pushing nodes in DaVinci Resolve.</p></div></div>
+        <div class="point-card light-hover-panel"><div class="lhp-content"><h4>Sound Design</h4><p style="color:var(--text-muted)">Layering heavy foley and EQ adjustments to create genuine cinematic immersion.</p></div></div>
       </div>
     </section>
-
-    <section class="section container">
-      <div class="section-header reveal-up"><div class="section-num">03. Deep Dive</div><h2 class="section-title">Explore the Mechanics</h2></div>
-      <div class="hub-grid reveal-up">
-        <a href="marketing.html" class="hub-card light-hover-panel"><div class="lhp-content" style="display: flex; flex-direction: column; align-items: center;"><div class="hub-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><h3 class="hub-title">Marketing Strategy</h3><p class="hub-desc">Funnels, analytics, and execution.</p></div></a>
-        <a href="photo.html" class="hub-card light-hover-panel"><div class="lhp-content" style="display: flex; flex-direction: column; align-items: center;"><div class="hub-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div><h3 class="hub-title">Image Architecture</h3><p class="hub-desc">From generation to Photoshop polishing.</p></div></a>
-        <a href="video.html" class="hub-card light-hover-panel"><div class="lhp-content" style="display: flex; flex-direction: column; align-items: center;"><div class="hub-icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><h3 class="hub-title">Cinematic Sequencing</h3><p class="hub-desc">Stitching frames and NLE editing.</p></div></a>
-      </div>
-    </section>
-
+    
     <footer class="outro container reveal-up"><div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Thank You</div></footer>
   </div>
-  
   
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -579,105 +524,5 @@
     });
   </script>
 
-  
-  <script>
-    // VARIED ELEMENT LISTS PER USER REQUEST
-    const taskData = {
-      'preprod': [
-        { text: 'Client Brand Identity Locked', state: 'pass' },
-        { text: 'Visual Moodboards Approved', state: 'pass' },
-        { text: 'Technical Brief Issued', state: 'review' }
-      ],
-      'prod': [
-        { text: 'Lighting Setup & Camera Check', state: 'pass' },
-        { text: 'Base Layer Acquisition', state: 'review' },
-      ],
-      'live': [
-        { text: 'A-Roll Footage Captured', state: 'pass' },
-        { text: 'B-Roll & Cutaways Secured', state: 'review' }
-      ],
-      'ai': [
-        { text: 'Midjourney Seeds Locked', state: 'pass' },
-        { text: 'Gen3 Motion Interpolation', state: 'review' }
-      ],
-      'post': [
-        { text: 'Photoshop Multi-Layer Compositing', state: 'review' },
-        { text: 'VFX / After Effects Pass', state: 'pass' },
-        { text: 'Color Grading (DaVinci)', state: 'pending' }
-      ],
-      'delivery': [
-        { text: 'Final Render H.264 / ProRes', state: 'pending' },
-        { text: 'Aspect Ratios Exported', state: 'pass' },
-        { text: 'Metadata Attached', state: 'review' }
-      ]
-    };
-
-    const folderTitles = {
-      'preprod': 'Strategy & Briefs Tracker',
-      'prod': 'Asset Production Hub',
-      'live': 'Live Action Plates',
-      'ai': 'AI Generative Assets',
-      'post': 'VFX & Post-Production Check',
-      'delivery': 'Final Delivery QA'
-    };
-
-    // Only auto-cycle through the main folders
-    const cycleKeys = ['preprod', 'prod', 'post', 'delivery'];
-    let currentFolderIndex = 0;
-
-    const folderItems = document.querySelectorAll('.folder-item');
-    const qaList = document.getElementById('qa-list');
-    const qaListWrapper = document.getElementById('qa-list-wrapper');
-    const qaTitle = document.getElementById('qa-title');
-
-    function renderTasks(folderId) {
-      qaListWrapper.classList.add('fade-out');
-      setTimeout(() => {
-        qaTitle.innerText = folderTitles[folderId];
-        qaList.innerHTML = '';
-        taskData[folderId].forEach((task, idx) => {
-          const item = document.createElement('div');
-          item.className = `qa-item ${task.state === 'pass' ? 'passed' : ''}`;
-          let badgeHTML = task.state === 'pass' ? `<div class="qa-badge pass">PASSED</div>` : (task.state === 'review' ? `<div class="qa-badge review">IN REVIEW</div>` : `<div class="qa-badge review" style="opacity:0.5;">PENDING</div>`);
-          item.innerHTML = `<div class="qa-task"><div class="qa-checkbox"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span>${task.text}</span></div>${badgeHTML}`;
-          item.addEventListener('click', () => {
-            item.classList.toggle('passed');
-            const badge = item.querySelector('.qa-badge');
-            if(item.classList.contains('passed')) { badge.className = 'qa-badge pass'; badge.innerText = 'PASSED'; badge.style.opacity = 1; } else { badge.className = 'qa-badge review'; badge.innerText = 'IN REVIEW'; }
-          });
-          qaList.appendChild(item);
-        });
-        qaListWrapper.classList.remove('fade-out');
-      }, 300);
-    }
-
-    function cycleFolders() {
-        currentFolderIndex = (currentFolderIndex + 1) % cycleKeys.length;
-        const nextFolder = cycleKeys[currentFolderIndex];
-        
-        folderItems.forEach(f => f.classList.remove('active'));
-        const activeItem = document.querySelector(`.folder-item[data-folder="${nextFolder}"]`);
-        if(activeItem) activeItem.classList.add('active');
-        
-        renderTasks(nextFolder);
-    }
-
-    // Switch folders every 2 seconds automatically
-    let folderInterval = setInterval(cycleFolders, 2000);
-
-    folderItems.forEach(folder => {
-      folder.addEventListener('click', () => {
-        clearInterval(folderInterval); // stop cycling if user manually clicks
-        folderItems.forEach(f => f.classList.remove('active'));
-        folder.classList.add('active');
-        const folderId = folder.dataset.folder;
-        // if user clicks a cycle key, update the index so it doesn't jump weirdly if resumed
-        if(cycleKeys.indexOf(folderId) !== -1) currentFolderIndex = cycleKeys.indexOf(folderId);
-        renderTasks(folderId);
-      });
-    });
-
-    renderTasks('preprod');
-  </script>
 </body>
 </html>
