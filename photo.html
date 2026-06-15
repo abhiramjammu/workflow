@@ -233,25 +233,6 @@
     .light-hover-panel:hover .ops-sidebar, .light-hover-panel:hover .ops-main, .light-hover-panel:hover .qa-item { background: #f8fafc !important; border-color: #cbd5e1 !important; }
     .light-hover-panel:hover .folder-item.active { background: #e0f2fe !important; color: #0ea5e9 !important; }
     
-    /* ── GLASS CARD (For Subpages) ── */
-    .glass-card {
-      position: relative; z-index: 1;
-      background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--glass-border); border-radius: 1.5rem;
-      padding: 3.5rem; box-shadow: var(--glass-shadow); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s, background 0.4s, border-color 0.4s;
-    }
-    .glass-card:hover {
-      background: #ffffff !important;
-      border-color: #e2e8f0 !important;
-      color: #050505 !important;
-      box-shadow: 0 0 50px rgba(14, 165, 233, 0.2);
-      transform: translateY(-5px);
-    }
-    .glass-card:hover h3, .glass-card:hover .step-num { color: #050505 !important; }
-    .glass-card:hover p { color: #334155 !important; }
-    
-    @media (max-width: 768px) { .glass-card { padding: 2rem; } }
-
     /* ── SECTION HEADERS ── */
     .section-header { margin-bottom: 3rem; text-align: center; } 
     .section-num { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; color: var(--cyan-deep); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; transition: color 0.8s; }
@@ -275,7 +256,7 @@
     .qa-item:hover { background: var(--glass-border); transform: translateX(5px); }
     
     .qa-task { display: flex; align-items: center; gap: 0.75rem; font-size: 0.88rem; font-weight: 600; color: var(--text-main); transition: color 0.3s; }
-    .qa-item.passed .qa-task { color: var(--text-muted); text-decoration: none; } /* NO STRIKE-THROUGH ANYMORE */
+    .qa-item.passed .qa-task { color: var(--text-muted); text-decoration: none; }
     
     .qa-checkbox { width: 22px; height: 22px; border-radius: 6px; background: var(--glass-bg); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: transparent; transition: all 0.3s; }
     .qa-item.passed .qa-checkbox { background: #10b981 !important; border-color: #10b981 !important; color: #fff !important; }
@@ -291,7 +272,6 @@
     @media (max-width: 900px) { .pipe-grid { grid-template-columns: 1fr; } }
     .pipe-card { padding: 2.5rem 2rem; border-radius: 1rem; display: flex; flex-direction: column; }
     
-    /* 01, 02, 03 are now solid white normally (even in light theme, though they might blend a bit on light, the user explicitly asked for them to be white not transparent outline) */
     .pipe-num { font-size: 4rem; font-family: 'Syne', sans-serif; font-weight: 800; color: #ffffff; -webkit-text-stroke: 0; line-height: 1; margin-bottom: 1rem; transition: all 0.4s ease; text-shadow: 0 4px 10px rgba(0,0,0,0.15); }
     
     .pipe-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
@@ -343,7 +323,16 @@
     .point-card { padding: 2.5rem; border-radius: 1.5rem; }
     .point-card h4 { font-size: 1.2rem; margin-bottom: 1rem; }
     
-    .outro { text-align: center; padding: 2rem 0 4rem; border-top: 1px solid var(--glass-border); margin-top: 2rem; }
+    /* ── NEXT PAGE FOOTER ── */
+    .next-page-footer { margin-top: 8rem; padding: 5rem 0; border-top: 1px solid var(--glass-border); text-align: center; }
+    .npl-label { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.5rem; display: block; transition: color 0.4s; }
+    .next-page-link { display: inline-block; text-decoration: none; }
+    .next-page-link h2 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; color: var(--text-main); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; gap: 1rem; }
+    .next-page-link .npl-arrow { color: var(--cyan-deep); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: inline-block; }
+    
+    .next-page-link:hover h2 { color: var(--cyan-deep) !important; transform: translateX(10px); }
+    .next-page-link:hover .npl-arrow { transform: translateX(15px); }
+
     .reveal-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
     .reveal-up.active { opacity: 1; transform: translateY(0); }
 </style>
@@ -399,7 +388,12 @@
       </div>
     </section>
     
-    <footer class="outro container reveal-up"><div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Thank You</div></footer>
+    <footer class="next-page-footer container reveal-up">
+      <span class="npl-label">Next Deep Dive</span>
+      <a href="video.html" class="next-page-link">
+        <h2>Cinematic Sequencing <span class="npl-arrow">→</span></h2>
+      </a>
+    </footer>
   </div>
   
   <script>
