@@ -481,10 +481,10 @@
         });
 
         // SCROLL-BASED LIGHT TO DARK THEME SWITCH (Only on Index)
-        const opsSection = document.getElementById('operations-section');
-        if(opsSection) {
+        const themeSection = document.getElementById('theme-trigger-section');
+        if(themeSection) {
             window.addEventListener('scroll', () => {
-                if(window.scrollY > opsSection.offsetTop - 300) { document.body.classList.replace('light-theme', 'dark-theme'); } 
+                if(window.scrollY > themeSection.offsetTop - 300) { document.body.classList.replace('light-theme', 'dark-theme'); } 
                 else { document.body.classList.replace('dark-theme', 'light-theme'); }
             });
         }

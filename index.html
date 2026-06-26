@@ -430,7 +430,7 @@
       </div>
     </section>
 
-    <section class="section container">
+    <section class="section container" id="theme-trigger-section">
       <div class="section-header reveal-up"><div class="section-num">Deep Dive</div><h2 class="section-title">Explore the Mechanics</h2></div>
       <div class="hub-grid reveal-up">
         <a href="marketing.html" class="hub-card light-hover-panel"><div class="dive-in-tag">Dive in &rarr;</div><div class="lhp-content" style="display: flex; flex-direction: column; align-items: center;"><div class="hub-icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><h3 class="hub-title">Marketing Strategy</h3><p class="hub-desc">Funnels, analytics, and execution.</p></div></a>
@@ -448,7 +448,7 @@
       </div>
     </section>
 
-    <section class="section container" id="operations-section">
+    <section class="section container">
       <div class="section-header reveal-up">
         <div class="section-num">Setup</div>
         <h2 class="section-title">The Operational Engine</h2>
@@ -536,10 +536,10 @@
         });
 
         // SCROLL-BASED LIGHT TO DARK THEME SWITCH (Only on Index)
-        const opsSection = document.getElementById('operations-section');
-        if(opsSection) {
+        const themeSection = document.getElementById('theme-trigger-section');
+        if(themeSection) {
             window.addEventListener('scroll', () => {
-                if(window.scrollY > opsSection.offsetTop - 300) { document.body.classList.replace('light-theme', 'dark-theme'); } 
+                if(window.scrollY > themeSection.offsetTop - 300) { document.body.classList.replace('light-theme', 'dark-theme'); } 
                 else { document.body.classList.replace('dark-theme', 'light-theme'); }
             });
         }
