@@ -402,7 +402,17 @@
     .scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--cyan-deep); box-shadow: 0 0 15px var(--cyan-deep); z-index: 10; opacity: 0; pointer-events: none; }
     
     .node-tree { display: flex; flex-direction: column; gap: 2rem; flex: 1; position: relative; }
-    .node-tree::before { content: ''; position: absolute; left: 24px; top: 24px; bottom: 24px; width: 2px; background: var(--glass-border); z-index: 0; }
+    .node-tree::before { content: ''; position: absolute; left: 39px; top: 24px; bottom: 24px; width: 2px; background: var(--glass-border); z-index: 0; }
+    
+    .mode-toggle { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; padding: 0 1rem; z-index: 5; position: relative; }
+    .mode-label { color: var(--text-muted); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.3s; }
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); transition: .4s; border-radius: 24px; }
+    .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--text-muted); transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: rgba(14,165,233,0.2); border-color: var(--cyan-deep); }
+    input:checked + .slider:before { transform: translateX(20px); background-color: var(--cyan-deep); box-shadow: 0 0 10px var(--cyan-deep); }
+    input:checked ~ .mode-label { color: var(--cyan-deep); }
     
     .node-btn { position: relative; display: flex; align-items: center; gap: 1.5rem; padding: 1rem; background: transparent; border: none; text-align: left; cursor: pointer; z-index: 1; width: 100%; }
     .node-dot { width: 48px; height: 48px; border-radius: 50%; background: var(--glass-bg); border: 2px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--text-muted); transition: all 0.3s; flex-shrink: 0; backdrop-filter: blur(10px); }
@@ -417,17 +427,17 @@
     .nle-monitor { display: flex; border-bottom: 1px solid #333; background: #000; }
     @media (max-width: 768px) { .nle-monitor { flex-direction: column-reverse; } }
     
-    .nle-info { flex: 1; padding: 3rem; background: #0f0f0f; display: flex; flex-direction: column; justify-content: center; }
+    .nle-info { flex: 1; padding: 3rem; background: #0f0f0f; display: flex; flex-direction: column; justify-content: flex-start; }
     .nle-info h3 { color: #fff; margin-bottom: 1rem; font-size: 1.5rem; font-family: 'Syne', sans-serif; transition: color 0.3s; }
     .nle-info p { color: #aaa; font-size: 1rem; line-height: 1.6; transition: color 0.3s; margin-bottom: 2rem; }
     
-    .nle-progression { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-    .nle-prog-img { width: 80px; aspect-ratio: 9/16; object-fit: cover; border-radius: 6px; border: 1px solid #333; }
-    .nle-prog-icon { color: #555; font-size: 1.5rem; font-weight: 700; font-family: monospace; }
+    .nle-progression { display: flex; align-items: center; justify-content: center; gap: 1.5rem; width: 100%; margin-top: auto; }
+    .nle-prog-img { flex: 1; aspect-ratio: 9/16; object-fit: cover; border-radius: 8px; border: 1px solid #333; max-width: 140px; }
+    .nle-prog-icon { color: #555; font-size: 2rem; font-weight: 700; font-family: monospace; }
     
     .nle-video { width: 350px; border-left: 1px solid #333; position: relative; aspect-ratio: 9/16; overflow: hidden; flex-shrink: 0; background: #000; }
     @media (max-width: 768px) { .nle-video { width: 100%; max-width: 350px; margin: 0 auto; border-left: none; border-bottom: 1px solid #333; } }
-    .nle-video video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.07); }
+    .nle-video video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.08); }
     
     .nle-timeline { background: #1a1a1a; padding: 1.5rem 0; overflow-x: hidden; position: relative; }
     .nle-ruler { height: 20px; border-bottom: 1px solid #333; margin-bottom: 10px; background: repeating-linear-gradient(90deg, transparent, transparent 99px, #444 100px); opacity: 0.5; position: relative; }
@@ -703,38 +713,59 @@
         if (nodeBtns.length > 0) {
             const nodeImgs = document.querySelectorAll('.node-img');
             const scanner = document.getElementById('scanner-line');
+            const autoToggle = document.getElementById('auto-mode-toggle');
+            let autoInterval;
+            let currentTarget = 1;
+            let isAnimating = false;
+            
+            function triggerNode(targetId) {
+                if (isAnimating) return;
+                const btn = document.querySelector(`.node-btn[data-target="${targetId}"]`);
+                if (!btn || btn.classList.contains('active')) return;
+                
+                isAnimating = true;
+                nodeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                scanner.style.opacity = '1';
+                scanner.style.transition = 'none';
+                scanner.style.top = '0%';
+                
+                setTimeout(() => {
+                    scanner.style.transition = 'top 0.4s ease-in-out';
+                    scanner.style.top = '100%';
+                    
+                    setTimeout(() => {
+                        nodeImgs.forEach(img => img.classList.remove('active'));
+                        document.getElementById('node-img-' + targetId).classList.add('active');
+                    }, 200);
+                    
+                    setTimeout(() => {
+                        scanner.style.opacity = '0';
+                        isAnimating = false;
+                    }, 400);
+                }, 10);
+            }
             
             nodeBtns.forEach(btn => {
                 btn.addEventListener('mouseenter', () => {
-                    const targetId = btn.getAttribute('data-target');
-                    
-                    if (btn.classList.contains('active')) return;
-                    
-                    // Update active button state
-                    nodeBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    // Trigger scanner line animation
-                    scanner.style.opacity = '1';
-                    scanner.style.transition = 'none';
-                    scanner.style.top = '0%';
-                    
-                    setTimeout(() => {
-                        scanner.style.transition = 'top 0.4s ease-in-out';
-                        scanner.style.top = '100%';
-                        
-                        // Swap image halfway through scanner animation
-                        setTimeout(() => {
-                            nodeImgs.forEach(img => img.classList.remove('active'));
-                            document.getElementById('node-img-' + targetId).classList.add('active');
-                        }, 200);
-                        
-                        setTimeout(() => {
-                            scanner.style.opacity = '0';
-                        }, 400);
-                    }, 10);
+                    if (autoToggle && autoToggle.checked) return;
+                    triggerNode(btn.getAttribute('data-target'));
                 });
             });
+            
+            if (autoToggle) {
+                autoToggle.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        autoInterval = setInterval(() => {
+                            currentTarget = currentTarget >= 3 ? 1 : currentTarget + 1;
+                            triggerNode(currentTarget);
+                        }, 2500);
+                    } else {
+                        clearInterval(autoInterval);
+                    }
+                });
+            }
         }
 
         // ── NLE TIMELINE HOVER ──
