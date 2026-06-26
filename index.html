@@ -419,9 +419,9 @@
               <div class="stack-header"><div class="stack-dot"></div><div class="stack-dot"></div><div class="stack-dot"></div></div>
               <div class="stack-video-wrapper"><video src="back.mp4" autoplay loop muted playsinline></video></div>
               <div class="stack-qa">
-                <div class="sqa-item sqa-item-1">Resolution Checked <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
-                <div class="sqa-item sqa-item-2">Color Graded <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
-                <div class="sqa-item sqa-item-3">Quality Passed <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+                <div class="sqa-item sqa-item-1">Strategic Alignment <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+                <div class="sqa-item sqa-item-2">Process Calibrated <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+                <div class="sqa-item sqa-item-3">Quality Assured <div class="sqa-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
               </div>
               <div class="sqa-status"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10" style="stroke:currentColor;stroke-width:2;fill:none;"/></svg> Approved for next step</div>
             </div>
@@ -625,6 +625,22 @@
             }
             animate();
         }
+
+        // AUTO-SCROLL TO NEXT PAGE
+        let scrollTimeout;
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 10) {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
+                    const nextLink = document.querySelector('.next-page-link');
+                    if (nextLink && nextLink.href) {
+                        clearTimeout(scrollTimeout);
+                        scrollTimeout = setTimeout(() => {
+                            window.location.href = nextLink.href;
+                        }, 150);
+                    }
+                }
+            }
+        }, { passive: true });
     });
   </script>
 

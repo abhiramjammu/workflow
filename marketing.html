@@ -713,6 +713,22 @@
             }
             animate();
         }
+
+        // AUTO-SCROLL TO NEXT PAGE
+        let scrollTimeout;
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 10) {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5) {
+                    const nextLink = document.querySelector('.next-page-link');
+                    if (nextLink && nextLink.href) {
+                        clearTimeout(scrollTimeout);
+                        scrollTimeout = setTimeout(() => {
+                            window.location.href = nextLink.href;
+                        }, 150);
+                    }
+                }
+            }
+        }, { passive: true });
     });
   </script>
 
