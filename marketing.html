@@ -390,6 +390,53 @@
 
     .reveal-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
     .reveal-up.active { opacity: 1; transform: translateY(0); }
+
+    /* ── 3-PHASE IMAGE SLIDER ── */
+    .tri-slider-container { position: relative; width: 100%; max-width: 1000px; margin: 4rem auto; border-radius: 1rem; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); aspect-ratio: 16/9; background: #000; touch-action: none; border: 1px solid var(--glass-border); }
+    .tri-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+    .tri-layer-1 { z-index: 1; } /* Bottom (Rightmost visible) */
+    .tri-layer-2 { z-index: 2; clip-path: polygon(0 0, 66.6% 0, 66.6% 100%, 0 100%); } /* Middle */
+    .tri-layer-3 { z-index: 3; clip-path: polygon(0 0, 33.3% 0, 33.3% 100%, 0 100%); } /* Top (Leftmost visible) */
+    
+    .tri-handle { position: absolute; top: 0; bottom: 0; width: 4px; background: var(--cyan-deep); z-index: 10; cursor: ew-resize; display: flex; align-items: center; justify-content: center; margin-left: -2px; }
+    .tri-handle::after { content: '<>'; color: var(--cyan-deep); font-weight: bold; font-family: monospace; font-size: 10px; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--panel-bg); border: 2px solid var(--cyan-deep); border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+    .tri-handle-1 { left: 33.3%; }
+    .tri-handle-2 { left: 66.6%; }
+    
+    .tri-label-container { position: absolute; bottom: 1.5rem; left: 0; width: 100%; height: 0; z-index: 5; display: flex; pointer-events: none; }
+    .tri-label { position: absolute; background: rgba(0,0,0,0.6); color: #fff; padding: 0.5rem 1rem; border-radius: 99px; font-weight: 700; font-size: 0.8rem; backdrop-filter: blur(5px); transform: translateX(-50%); white-space: nowrap; border: 1px solid rgba(255,255,255,0.1); }
+    .tri-label-1 { left: 16.6%; }
+    .tri-label-2 { left: 50%; }
+    .tri-label-3 { left: 83.3%; }
+
+    /* ── NLE TIMELINE ── */
+    .nle-container { width: 100%; max-width: 1100px; margin: 4rem auto; background: #141414; border-radius: 1rem; border: 1px solid #333; overflow: hidden; display: flex; flex-direction: column; font-family: 'DM Sans', sans-serif; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .nle-monitor { display: flex; border-bottom: 1px solid #333; background: #000; }
+    @media (max-width: 768px) { .nle-monitor { flex-direction: column; } }
+    .nle-video { flex: 2.5; border-right: 1px solid #333; position: relative; aspect-ratio: 16/9; }
+    @media (max-width: 768px) { .nle-video { border-right: none; border-bottom: 1px solid #333; } }
+    .nle-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .nle-info { flex: 1; padding: 2rem; background: #0f0f0f; display: flex; flex-direction: column; justify-content: center; }
+    .nle-info h3 { color: #fff; margin-bottom: 1rem; font-size: 1.25rem; font-family: 'Syne', sans-serif; transition: color 0.3s; }
+    .nle-info p { color: #aaa; font-size: 0.95rem; line-height: 1.6; transition: color 0.3s; }
+    
+    .nle-timeline { background: #1a1a1a; padding: 1.5rem 0; overflow-x: hidden; position: relative; }
+    .nle-ruler { height: 20px; border-bottom: 1px solid #333; margin-bottom: 10px; background: repeating-linear-gradient(90deg, transparent, transparent 99px, #444 100px); opacity: 0.5; position: relative; }
+    .nle-ruler::after { content: '00:00:00:00'; position: absolute; left: 70px; top: -5px; font-size: 10px; color: #666; font-family: monospace; }
+    .nle-track { display: flex; align-items: center; margin-bottom: 4px; height: 36px; background: rgba(0,0,0,0.2); }
+    .nle-track-label { width: 60px; text-align: center; color: #666; font-size: 0.75rem; font-weight: 700; border-right: 1px solid #333; padding-right: 10px; display: flex; align-items: center; justify-content: flex-end; }
+    .nle-clips { flex: 1; position: relative; height: 100%; display: flex; align-items: center; }
+    
+    .nle-clip { height: 28px; border-radius: 4px; display: flex; align-items: center; padding: 0 10px; font-size: 0.75rem; font-weight: 700; color: #fff; cursor: pointer; position: absolute; transition: filter 0.2s, transform 0.2s, outline 0.1s; border: 1px solid rgba(255,255,255,0.2); overflow: hidden; white-space: nowrap; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); }
+    .nle-clip:hover { filter: brightness(1.2); transform: scaleY(1.05); z-index: 10; outline: 2px solid #fff; outline-offset: 1px; }
+    .nle-clip-v { background: linear-gradient(180deg, #3b82f6, #1d4ed8); }
+    .nle-clip-c { background: linear-gradient(180deg, #a855f7, #7e22ce); }
+    .nle-clip-a { background: linear-gradient(180deg, #10b981, #047857); }
+    .nle-clip-a::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,10 L5,2 L10,18 L15,5 L20,15 L25,8 L30,12 L35,4 L40,16 L45,9 L50,11 L55,3 L60,17 L65,6 L70,14 L75,7 L80,13 L85,1 L90,19 L95,8 L100,10" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/></svg>'); background-size: 100% 100%; pointer-events: none; }
+    
+    .nle-playhead { position: absolute; top: 0; bottom: 0; width: 2px; background: #ef4444; left: 55%; z-index: 20; pointer-events: none; }
+    .nle-playhead::before { content: ''; position: absolute; top: 0; left: -5px; width: 12px; height: 12px; background: #ef4444; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+
 </style>
 </head>
 
@@ -729,6 +776,82 @@
                 }
             }
         }, { passive: true });
+
+        // ── 3-PHASE IMAGE SLIDER ──
+        const triSlider = document.getElementById('tri-slider');
+        if (triSlider) {
+            const handle1 = document.getElementById('tri-handle-1');
+            const handle2 = document.getElementById('tri-handle-2');
+            const layer2 = document.getElementById('tri-layer-2');
+            const layer3 = document.getElementById('tri-layer-3');
+            const labels = document.querySelector('.tri-label-container');
+            let activeHandle = null;
+
+            function getSliderPos(e) {
+                const rect = triSlider.getBoundingClientRect();
+                let x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+                return Math.max(0, Math.min(x / rect.width * 100, 100));
+            }
+
+            function onDrag(e) {
+                if (!activeHandle) return;
+                let pos = getSliderPos(e);
+                if (labels) labels.style.opacity = '0.2';
+                
+                if (activeHandle === 1) {
+                    const maxPos = parseFloat(handle2.style.left || '66.6') - 2;
+                    pos = Math.min(pos, maxPos);
+                    handle1.style.left = pos + '%';
+                    layer3.style.clipPath = `polygon(0 0, ${pos}% 0, ${pos}% 100%, 0 100%)`;
+                } else if (activeHandle === 2) {
+                    const minPos = parseFloat(handle1.style.left || '33.3') + 2;
+                    pos = Math.max(pos, minPos);
+                    handle2.style.left = pos + '%';
+                    layer2.style.clipPath = `polygon(0 0, ${pos}% 0, ${pos}% 100%, 0 100%)`;
+                }
+            }
+
+            function stopDrag() {
+                activeHandle = null;
+                if (labels) labels.style.opacity = '1';
+                document.removeEventListener('mousemove', onDrag);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchmove', onDrag);
+                document.removeEventListener('touchend', stopDrag);
+            }
+
+            handle1.addEventListener('mousedown', (e) => { activeHandle = 1; e.preventDefault(); document.addEventListener('mousemove', onDrag); document.addEventListener('mouseup', stopDrag); });
+            handle1.addEventListener('touchstart', (e) => { activeHandle = 1; document.addEventListener('touchmove', onDrag); document.addEventListener('touchend', stopDrag); }, {passive: true});
+
+            handle2.addEventListener('mousedown', (e) => { activeHandle = 2; e.preventDefault(); document.addEventListener('mousemove', onDrag); document.addEventListener('mouseup', stopDrag); });
+            handle2.addEventListener('touchstart', (e) => { activeHandle = 2; document.addEventListener('touchmove', onDrag); document.addEventListener('touchend', stopDrag); }, {passive: true});
+        }
+
+        // ── NLE TIMELINE HOVER ──
+        const nleClips = document.querySelectorAll('.nle-clip');
+        if (nleClips.length > 0) {
+            const nleTitle = document.getElementById('nle-title');
+            const nleDesc = document.getElementById('nle-desc');
+            const defaultTitle = "Cinematic Sequencing";
+            const defaultDesc = "Hover over the timeline clips below to explore the post-production architecture.";
+
+            nleClips.forEach(clip => {
+                clip.addEventListener('mouseenter', () => {
+                    nleTitle.textContent = clip.getAttribute('data-title');
+                    nleTitle.style.color = '#3b82f6';
+                    if (clip.classList.contains('nle-clip-c')) nleTitle.style.color = '#a855f7';
+                    if (clip.classList.contains('nle-clip-a')) nleTitle.style.color = '#10b981';
+                    nleDesc.textContent = clip.getAttribute('data-desc');
+                    nleDesc.style.color = '#fff';
+                });
+                clip.addEventListener('mouseleave', () => {
+                    nleTitle.textContent = defaultTitle;
+                    nleTitle.style.color = '#fff';
+                    nleDesc.textContent = defaultDesc;
+                    nleDesc.style.color = '#aaa';
+                });
+            });
+        }
     });
   </script>
 
