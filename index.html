@@ -376,6 +376,18 @@
 
     @keyframes fillBar { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
 
+    /* ── PIPELINE/STEPS ── */
+    .glass-card { background: var(--panel-bg); border-radius: 1.5rem; padding: 4rem; border: 1px solid var(--panel-border); box-shadow: var(--glass-shadow); margin-top: 4rem; }
+    @media (max-width: 768px) { .glass-card { padding: 2rem; } }
+    .step-box { display: flex; gap: 2rem; align-items: flex-start; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--glass-border); }
+    .step-box:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    @media (max-width: 768px) { .step-box { flex-direction: column; gap: 1rem; } }
+    .step-num { font-size: 4rem; font-family: 'Syne', sans-serif; font-weight: 800; line-height: 0.8; color: transparent; -webkit-text-stroke: 1px var(--text-muted); opacity: 0.3; width: 80px; flex-shrink: 0; transition: all 0.3s; }
+    .step-box:hover .step-num { color: var(--cyan-deep); -webkit-text-stroke: 0; opacity: 1; text-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); }
+    .step-content h3 { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--text-main); }
+    .step-content p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
+    .step-metric { display: inline-block; margin-top: 1rem; padding: 0.4rem 1rem; background: rgba(79, 172, 254, 0.1); color: var(--cyan-deep); border-radius: 99px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+
     .reveal-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
     .reveal-up.active { opacity: 1; transform: translateY(0); }
 </style>

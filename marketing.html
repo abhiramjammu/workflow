@@ -376,6 +376,18 @@
 
     @keyframes fillBar { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
 
+    /* ── PIPELINE/STEPS ── */
+    .glass-card { background: var(--panel-bg); border-radius: 1.5rem; padding: 4rem; border: 1px solid var(--panel-border); box-shadow: var(--glass-shadow); margin-top: 4rem; }
+    @media (max-width: 768px) { .glass-card { padding: 2rem; } }
+    .step-box { display: flex; gap: 2rem; align-items: flex-start; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--glass-border); }
+    .step-box:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    @media (max-width: 768px) { .step-box { flex-direction: column; gap: 1rem; } }
+    .step-num { font-size: 4rem; font-family: 'Syne', sans-serif; font-weight: 800; line-height: 0.8; color: transparent; -webkit-text-stroke: 1px var(--text-muted); opacity: 0.3; width: 80px; flex-shrink: 0; transition: all 0.3s; }
+    .step-box:hover .step-num { color: var(--cyan-deep); -webkit-text-stroke: 0; opacity: 1; text-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); }
+    .step-content h3 { font-size: 1.5rem; margin-bottom: 0.75rem; color: var(--text-main); }
+    .step-content p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
+    .step-metric { display: inline-block; margin-top: 1rem; padding: 0.4rem 1rem; background: rgba(79, 172, 254, 0.1); color: var(--cyan-deep); border-radius: 99px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+
     .reveal-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
     .reveal-up.active { opacity: 1; transform: translateY(0); }
 </style>
@@ -483,6 +495,37 @@
           </div>
         </div>
       </div>
+      
+      <!-- OLD MARKETING STEPS -->
+      <div class="glass-card reveal-up">
+        <h2 style="font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; margin-bottom: 3rem; text-align: center;">Pipeline & Methodology</h2>
+        <div class="step-box">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h3>SEO & Intent Mapping</h3>
+            <p>Instead of blind content creation, we reverse-engineer high-intent search queries using Ahrefs and Search Console. We build structured topic clusters that naturally capture user search behavior, ensuring organic traffic is highly qualified before they even see an ad.</p>
+            <div class="step-metric">Result: Higher Domain Authority & Qualified Leads</div>
+          </div>
+        </div>
+        
+        <div class="step-box">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h3>A/B Testing Content Vectors</h3>
+            <p>We deploy AI-generated creatives in rapid micro-campaigns on Meta and Google Ads. By running strict multivariate tests (testing hook against hook, visual against visual), we rely purely on CPA (Cost Per Acquisition) data to decide which creative gets the massive scaling budget.</p>
+            <div class="step-metric">Result: Lower CPA & Eliminated Guesswork</div>
+          </div>
+        </div>
+
+        <div class="step-box">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h3>Frictionless Funnel Architecture</h3>
+            <p>Using GA4 heatmaps and drop-off analysis, we identify exactly where users lose interest. We continuously iterate the UI/UX of the landing pages to remove friction, ensuring that the traffic we pay for actually converts into users.</p>
+            <div class="step-metric">Result: Maximized Conversion Rates</div>
+          </div>
+        </div>
+      </div>
 
       <!-- TELEMETRY DASHBOARD (IDEA 2) -->
       <div class="telemetry-dashboard reveal-up">
@@ -495,16 +538,24 @@
           <div class="tel-col">
             <h3>Campaign Velocity Metrics</h3>
             <div class="metric-row">
-              <div class="metric-label"><span>Cost Per Acquisition (CPA) Reduction</span> <span>-42%</span></div>
-              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 78%; animation-delay: 0.2s;"></div></div>
+              <div class="metric-label"><span>CPA (Cost Per Acquisition) Reduction</span> <span>-42%</span></div>
+              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 42%; animation-delay: 0.2s; background: #10b981;"></div></div>
             </div>
             <div class="metric-row">
-              <div class="metric-label"><span>Organic Search CTR</span> <span>+35%</span></div>
-              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 65%; animation-delay: 0.4s;"></div></div>
+              <div class="metric-label"><span>Organic Search CTR</span> <span>35%</span></div>
+              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 35%; animation-delay: 0.4s; background: #0ea5e9;"></div></div>
             </div>
             <div class="metric-row">
               <div class="metric-label"><span>ROAS Scaling Efficiency</span> <span>2.8x</span></div>
-              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 85%; animation-delay: 0.6s;"></div></div>
+              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 85%; animation-delay: 0.6s; background: #8b5cf6;"></div></div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label"><span>Landing Page Conversion Rate (CVR)</span> <span>18.5%</span></div>
+              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 18.5%; animation-delay: 0.8s; background: #f59e0b;"></div></div>
+            </div>
+            <div class="metric-row">
+              <div class="metric-label"><span>Lead Quality Score (MQL)</span> <span>92/100</span></div>
+              <div class="metric-bar-bg"><div class="metric-bar-fill" style="width: 92%; animation-delay: 1.0s; background: #ec4899;"></div></div>
             </div>
           </div>
           
