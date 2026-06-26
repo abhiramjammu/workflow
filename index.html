@@ -427,9 +427,9 @@
     .nle-monitor { display: flex; border-bottom: 1px solid #333; background: #000; justify-content: flex-end; }
     @media (max-width: 768px) { .nle-monitor { flex-direction: column-reverse; } }
     
-    .nle-info { flex: 1; padding: 2.5rem; background: #0f0f0f; display: flex; flex-direction: column; justify-content: center; }
-    .nle-info h3 { color: #fff; margin-bottom: 1rem; font-size: 2rem; font-family: 'Syne', sans-serif; transition: color 0.3s; }
-    .nle-info p { color: #aaa; font-size: 1.1rem; line-height: 1.6; transition: color 0.3s; margin-bottom: 0; }
+    .nle-info { flex: 1; padding: 2.5rem; background: #0f0f0f; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    .nle-info h3 { color: #fff; margin-bottom: 1rem; font-size: 2rem; font-family: 'Syne', sans-serif; transition: color 0.3s; white-space: nowrap; }
+    .nle-info p { color: #aaa; font-size: 1.1rem; line-height: 1.6; transition: color 0.3s; margin-bottom: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
     .nle-progression { display: flex; align-items: center; justify-content: center; gap: 1.5rem; width: 100%; margin-top: 2rem; }
     .nle-prog-img { flex: 1; aspect-ratio: 9/16; object-fit: cover; border-radius: 12px; border: 1px solid #333; max-width: 175px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
